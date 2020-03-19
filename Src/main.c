@@ -49,7 +49,7 @@ uint32_t TxMailbox;
 CAN_RxHeaderTypeDef rx;
 uint8_t RXdata[8];
 
-uint8_t N;
+uint8_t N=128; //must be 2^x and >1 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -243,7 +243,9 @@ static void MX_CAN1_Init(void)
 	filter.FilterIdHigh = 0x0000;
 	filter.FilterIdLow = 0x0000;
 	filter.FilterMaskIdHigh = 0x0000;
-	filter.FilterMaskIdLow = 0x0000;
+	filter.FilterMaskIdLow = 0x0000; 
+	//if we want recieve paks from the first N/2 devices
+	filter.FilterMaskIdLow = (0xFF-(N/2)+1)<<5; 
 	filter.FilterMode = CAN_FILTERMODE_IDLIST;
 	filter.FilterScale = CAN_FILTERSCALE_32BIT;
 	filter.SlaveStartFilterBank = 0;
